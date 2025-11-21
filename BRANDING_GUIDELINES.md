@@ -1,8 +1,8 @@
 # Branding Guidelines
 
 ## Name and Attribution
-- Product name: "Notepad++ Professional".
-- Include attribution: "Plugin for Notepad++ Professional".
+- Product name: "Universal Plugin Manager With NotePad++".
+- Include attribution: "Universal Plugin Manager With NotePad++".
 
 ## Plugin Naming
 - Use descriptive names; avoid confusingly similar names to official plugins.
