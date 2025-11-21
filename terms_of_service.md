@@ -1,4 +1,4 @@
-# Notepad++ Professional Software License Agreement
+# Universal Plugin Manager With NotePad++ Software License Agreement
 
 **Last Updated:** November 21, 2025
 
@@ -72,7 +72,7 @@ This Agreement shall be governed by and construed in accordance with the laws of
 ## Contact Information
 For approvals, support, or inquiries, contact Licensor through the official GitHub repository: [Your GitHub Repository URL]
 
-**Developer:** [Your Name/Username]
+**Developer:** ⛧Mr⛧Who’s⛧Hacking⛧
 
 By using Notepad++ Professional, you acknowledge that you have read, understood, and agree to be bound by this Agreement.
 
