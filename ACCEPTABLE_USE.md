@@ -1,6 +1,6 @@
 # Acceptable Use Policy
 
-This Acceptable Use Policy (AUP) applies to all users and developers of Notepad++ Professional.
+This Acceptable Use Policy (AUP) applies to all users and developers of Universal Plugin Manager With NotePad++
 
 ## Allowed
 - Productivity automation, text processing, integrations with your own systems.
