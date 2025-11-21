@@ -1,6 +1,6 @@
 # Plugin Policy
 
-This document defines the rules for creating, submitting, approving, distributing, and using plugins for Notepad++ Professional.
+This document defines the rules for creating, submitting, approving, distributing, and using plugins for Universal Plugin Manager With NotePad++.
 
 ## 1. Definitions
 - Software: Notepad++ Professional application.
