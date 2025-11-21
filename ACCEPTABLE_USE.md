@@ -11,7 +11,7 @@ This Acceptable Use Policy (AUP) applies to all users and developers of Universa
 - Cheats, aimbots, ESP, anti-recoil for online play, or ban evasion.
 - Security bypass, credential theft, or privacy violations.
 - Harmful content, harassment, spam, or DDoS tooling.
-
+- which all plugins NEED MY APPOVEL TO BE USED AND DOCUMENTED ANY OTHERS IM NOT RESPONSIBLE 
 ## Enforcement
 - Unapproved or violating plugins are blocked.
 - Licensor may revoke access and report illegal activities.
