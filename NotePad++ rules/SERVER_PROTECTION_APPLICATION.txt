@@ -1,0 +1,245 @@
+Replace file with cleaned, user-focused v1.3 that emphasizes plugin protection, user steps, vetting checklist, quarantine and developer guidance; fixes formatting and merges repetitive content.
+Hash Algorithm: SHA-256 (upgrade path to SHA-512 or multi-alg).
+Export Hygiene: Exclude environment variables, user paths, credentials, memory dumps.
+Threshold Changes: Prefer incremental (±5%) adjustments; log rationale.
+File Inclusion Controls: Explicit extension allowlist (.md, .txt) prevents secret leakage.
+Process Filtering (future): Optionally suppress known benign high-memory processes (e.g. browsers).
+
+14. TESTING & VALIDATION STRATEGY
+---------------------------------
+Unit: Hash calculator, integrity delta diff, report generator formatting.
+Functional: Simulate file change -> expect ALERT event and integrity status update.
+Load: Artificial CPU spike -> verify WARN then optional ALERT (if sustained simulation added).
+Regression: Ensure baseline rebuild does not erase unrelated config keys.
+Security: Attempt path traversal outside rules directory (should be ignored).
+
+15. INCIDENT RESPONSE (EXPANDED)
+--------------------------------
+Stage 1 Detect: WARN/ALERT visible in log & status label update.
+Stage 2 Validate: Confirm via manual Quick Scan & baseline recomputation (without saving) by comparing ephemeral hash set.
+Stage 3 Contain: Manual process termination or resource throttling (outside scope of SPA code).
+Stage 4 Document: Export report, attach ticket with event slice & risk score.
+Stage 5 Recover: Authorize baseline rebuild if changes are legitimate; archive old baseline file before overwrite.
+Stage 6 Improve: Tune thresholds / add watchlist entries; record false positive classification.
+
+16. PLUGIN ACTIONS (CURRENT IMPLEMENTATION)
+-----------------------------------------
+1. Live Metrics (CPU, Memory, Disk, Integrity summarized).
+2. Baseline Build / Rebuild (manual governance control).
+3. Quick Process Scan (top resource consumers flagged).
+4. Report Export (timestamped snapshot of current state).
+5. (Future) Plugin Risk Scoring with visual indicators.
+6. (Future) Plugin Quarantine with one-click unload.
+
+💡 USER QUICK ACTIONS (HOW TO USE SERVER PROTECTION)
+---------------------------------------------------
+
+DAILY MONITORING:
+  1. Check Server Protection tab when starting NotePad++
+  2. Verify all metrics show green/normal status
+  3. Review Event Log for any WARN/ALERT messages
+  4. Confirm Integrity status shows "OK"
+
+LOADING NEW PLUGIN:
+  1. Complete Plugin Vetting Checklist (Section 5)
+  2. Open Server Protection tab BEFORE loading
+  3. Note current CPU/Memory baseline
+  4. Load plugin through Plugin Manager
+  5. Immediately check for resource spikes
+  6. Monitor for 5 minutes before trusting
+  7. If suspicious → Unload immediately
+
+RESPONDING TO ALERTS:
+  🟡 YELLOW (WARN):
+     - Review Event Log for cause
+     - Check if expected (e.g., legitimate high CPU task)
+     - Continue monitoring
+     
+  🔴 RED (ALERT):
+     - Identify process/plugin causing alert
+     - Review Top Processes list
+     - If plugin-related: Unload plugin
+     - Generate report for analysis
+     
+  ⚫ CRITICAL:
+     - IMMEDIATE ACTION REQUIRED
+     - Unload all recently added plugins
+     - Generate and save report
+     - Rebuild baseline after cleanup
+     - Consider system scan with antivirus
+
+WEEKLY MAINTENANCE:
+  1. Review all loaded plugins (still needed?)
+  2. Check for plugin updates from trusted sources
+  3. Rebuild baseline (click "Rebuild Baseline")
+  4. Generate and archive weekly report
+  5. Review historical Event Log patterns
+
+MONTHLY SECURITY AUDIT:
+  1. Export all protection reports
+  2. Review quarantine log (if any)
+  3. Update Server Protection if new version available
+  4. Verify all plugins from trusted sources
+  5. Clean up unused plugins from plugins/ directory
+
+17. REPORT CONTENTS (DETAILED)
+------------------------------
+Mandatory Sections: Header, timestamp UTC, system summary, metrics block, integrity delta (missing/changed/new lists), process table, last ≤50 events, (future) risk score.
+Sanitization: Strip control characters; enforce max line length (future improvement).
+
+18. BASELINE FILE SET (HASH MONITORING)
+--------------------------------------
+Included by default (allowlist):
+   ACCEPTABLE_USE.md
+   SERVER_PROTECTION_PROGRAM.md
+   PRIVACY_POLICY.md
+   PLUGIN_POLICY.md
+   DEVELOPER_AGREEMENT.md
+   terms_of_service.md
+   BRANDING_GUIDELINES.md
+   SERVER_PROTECTION_APPLICATION.txt (this file)
+Exclusions: Temporary files, backups, compiled caches, binaries.
+
+19. THRESHOLD DEFAULTS (CONFIGURABLE CONSTANTS)
+----------------------------------------------
+CPU_WARN          = 85%
+MEM_WARN          = 80%
+DISK_WARN         = 85%
+SUSTAIN_SECONDS   = 30
+TOP_PROCESS_LIMIT = 10
+Future: RISK_SCORE_HIGH >= 60, RISK_SCORE_SEVERE >= 80.
+
+20. PERFORMANCE & RESOURCE SAFEGUARDS
+-------------------------------------
+Do not hash unchanged file sets more than once per interval if mtime caching is introduced (future).
+Graceful Degradation: If psutil errors, log WARN and skip metrics-only for that cycle.
+Atomic Write: Baseline & report writes should be performed via temp file rename (future enhancement).
+
+21. USAGE NOTES
+---------------
+- Auto-load if plugin present & saved as loaded.
+- Threshold tuning requires restart or dynamic config reload (future UI slider set).
+- Ensure `psutil` and Python ≥3.10 for consistent behavior.
+- For audit packaging, compress exported reports with external tooling (ZIP/GPG) – not handled internally.
+
+22. COMPARATIVE ROADMAP (PHASES)
+--------------------------------
+Phase 1 (Current): Advisory telemetry + integrity hashing + manual reporting + user guidance.
+Phase 2 (Q1 2026): Plugin risk scoring, automated quarantine, watchlist, lineage validation, improved baseline diff UX.
+Phase 3 (Q2 2026): Remote forwarding (syslog/HTTPS), signature allowlist, structured JSON report output, network monitoring.
+Phase 4 (Q3 2026): Adaptive anomaly model, encryption-at-rest for baseline, automatic containment hooks, sandboxed plugin execution.
+Phase 5 (Q4 2026): Machine learning threat detection, predictive analytics, automated plugin reputation system.
+
+23. FUTURE ENHANCEMENTS (DETAIL)
+--------------------------------
+Watchlist JSON Schema:
+  {
+    "processName": "string",
+    "maxCpuPct": number?,
+    "maxMemPct": number?,
+    "action": "alert|kill|throttle"
+  }
+
+Plugin Allowlist Schema:
+  {
+    "pluginName": "string",
+    "hash": "sha256_hash",
+    "author": "verified_author",
+    "version": "1.0.0",
+    "permissions": ["file_read", "network_access"],
+    "lastVerified": "2025-11-21",
+    "trustLevel": "verified|community|untrusted"
+  }
+
+Quarantine Action: Wrap OS-level process termination with confirmation + logging.
+Secure Channel: Optional TLS client to send compressed event batches.
+Reputation System: Community-driven plugin ratings and security reports.
+
+🎓 SECURITY EDUCATION FOR USERS
+------------------------------
+COMMON PLUGIN THREATS YOU SHOULD KNOW:
+
+1. TROJAN PLUGINS
+   What: Legitimate-looking plugin with hidden malicious code
+   How to spot: Code review reveals suspicious hidden functions
+   Protection: Always review code, check author reputation
+
+2. SUPPLY CHAIN ATTACKS  
+   What: Compromised dependency or library used by plugin
+   How to spot: Unusual external imports, unknown package requirements
+   Protection: Verify all dependencies, use only trusted sources
+
+3. SOCIAL ENGINEERING
+   What: Plugin claims amazing features to trick installation
+   How to spot: Too good to be true claims, pressure to install quickly
+   Protection: Research plugin, read reviews, verify claims
+
+4. RESOURCE HIJACKING
+   What: Plugin secretly uses your computer for cryptocurrency mining
+   How to spot: High CPU usage, system slowdown, heat/fan noise
+   Protection: Monitor Server Protection metrics continuously
+
+5. DATA THEFT
+   What: Plugin silently copies your files or credentials
+   How to spot: Unexpected file access, network activity
+   Protection: Limit plugin permissions, review file operations
+
+📚 TRUSTED PLUGIN SOURCES
+------------------------
+RECOMMENDED:
+  ✓ Official NotePad++ plugin repository (when available)
+  ✓ Verified GitHub repositories with >100 stars
+  ✓ Developers with established reputation
+  ✓ Open-source plugins with active community
+  ✓ Plugins with comprehensive documentation
+
+AVOID:
+  ✗ Anonymous developers with no history
+  ✗ Plugins without source code access
+  ✗ Downloaded from file-sharing sites
+  ✗ Plugins with no documentation
+  ✗ Closed-source commercial plugins without reviews
+  ✗ Plugins requesting excessive permissions24. EXPORT & AUDIT INTEGRITY
+----------------------------
+Export files should include SHA-256 checksum footer for tamper-evidence:
+   SHA256(Body)=<hex> (future addition).
+Version stamping ensures reproducibility.
+
+25. JSON REFERENCE (PLANNED OUTPUT FORMAT)
+------------------------------------------
+{
+   "version": "1.1",
+   "timestampUtc": "2025-11-21T13:45:00Z",
+   "system": {
+      "os": "Windows",
+      "python": "3.x",
+      "logicalCpu": 8,
+      "memoryGb": 32
+   },
+   "metrics": {"cpuPct": 12.4, "memPct": 41.2, "diskPct": 55.0},
+   "integrity": {"status": "OK", "missing":[], "changed":[], "new":[]},
+   "processes": [ {"pid":1234, "name":"python.exe", "cpu":3.1, "mem":1.8} ],
+   "events": [ {"ts":"13:45:00","level":"INFO","msg":"Metrics cycle"} ],
+   "riskScore": 18,
+   "riskBand": "LOW"
+}
+
+26. SECURITY TEST IDEAS
+-----------------------
+1. Modify a monitored file → expect ALERT + integrity delta.
+2. Delete a monitored file → expect ALERT (missing) + baseline unchanged until rebuild.
+3. Create new monitored file → expect WARN (new) classification.
+4. Force high CPU using stress script → WARN then (future) ALERT if sustained tracking added.
+5. Attempt to write outside allowed directory (path traversal) → should not appear in baseline.
+
+27. ESCALATION & SLA (Advisory)
+--------------------------------
+CRITICAL Event Handling: Operator review within 15 minutes.
+Baseline Discrepancy: Investigate cause before rebuild; rebuild only if authorized.
+Report Failure: Immediate manual retry; if persistent, capture environment state externally.
+
+28. DISCLAIMER
+--------------
+This advanced SPA specification documents advisory protections; it does NOT guarantee prevention of sophisticated threats. Adopt defense-in-depth (OS hardening, endpoint protection, least privilege) for production-grade assurance. Validate configurations before relying on generated artifacts for compliance.
+
+END OF DOCUMENT
