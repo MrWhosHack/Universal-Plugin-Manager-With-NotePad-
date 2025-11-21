@@ -1,6 +1,6 @@
 # Developer Agreement
 
-This Agreement governs the use of developer access and keys for creating plugins for Notepad++ Professional.
+This Agreement governs the use of developer access and keys for creating plugins for Universal Plugin Manager With NotePad++.
 
 ## 1. Access
 - Developer keys (if issued) are personal, non-transferable, and revocable at any time.
