@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Notepad++ Professional does not collect personal data by default.
+Universal Plugin Manager With NotePad++ does not collect personal data by default.
 
 ## What We Collect
 - No telemetry or analytics are collected by the Software.
